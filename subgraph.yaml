@@ -1,0 +1,62 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: SynthereumPool
+    network: matic
+    source:
+      address: "0x65a7b4Ff684C2d08c115D55a4B089bf4E92F5003"
+      abi: SynthereumPool
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ActivatedLP
+        - DepositedLiquidity
+        - Liquidated
+        - Minted
+        - NewLendingModule
+        - Redeemed
+        - RegisteredLp
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - SetFeePercentage
+        - SetLiquidationReward
+        - SetOvercollateralization
+        - WithdrawnLiquidity
+      abis:
+        - name: SynthereumPool
+          file: ./abis/SynthereumPool.json
+      eventHandlers:
+        - event: ActivatedLP(indexed address)
+          handler: handleActivatedLP
+        - event: DepositedLiquidity(indexed address,uint256,uint256)
+          handler: handleDepositedLiquidity
+        - event: Liquidated(indexed address,indexed address,uint256,uint256,uint256,uint256)
+          handler: handleLiquidated
+        - event: Minted(indexed address,(uint256,uint256,uint256,uint256),address)
+          handler: handleMinted
+        - event: NewLendingModule(string)
+          handler: handleNewLendingModule
+        - event: Redeemed(indexed address,(uint256,uint256,uint256,uint256),address)
+          handler: handleRedeemed
+        - event: RegisteredLp(indexed address)
+          handler: handleRegisteredLp
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: SetFeePercentage(uint256)
+          handler: handleSetFeePercentage
+        - event: SetLiquidationReward(uint256)
+          handler: handleSetLiquidationReward
+        - event: SetOvercollateralization(indexed address,uint256)
+          handler: handleSetOvercollateralization
+        - event: WithdrawnLiquidity(indexed address,uint256,uint256)
+          handler: handleWithdrawnLiquidity
+      file: ./src/synthereum-pool.ts
